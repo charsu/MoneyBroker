@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.645
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoneyBrokerQuote.App", "MoneyBrokerQuote.App\MoneyBrokerQuote.App.csproj", "{A6BCD20B-EA30-4E11-A0E8-78202AD44D96}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoneyBroker.App", "MoneyBroker.App\MoneyBroker.App.csproj", "{A6BCD20B-EA30-4E11-A0E8-78202AD44D96}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyBroker.Core", "MoneyBroker.Core\MoneyBroker.Core.csproj", "{7EF23009-1E43-41C6-919C-4CC7492D3159}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoneyBroker.Core", "MoneyBroker.Core\MoneyBroker.Core.csproj", "{7EF23009-1E43-41C6-919C-4CC7492D3159}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{239EC7E9-2E97-4854-AFF8-1697012CF8D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyBrokerQuote.Tests", "MoneyBrokerQuote.Tests\MoneyBrokerQuote.Tests.csproj", "{B4CE6E31-9A3A-4984-8BA1-589188908ED8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoneyBroker.Tests", "MoneyBroker.Tests\MoneyBroker.Tests.csproj", "{B4CE6E31-9A3A-4984-8BA1-589188908ED8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
