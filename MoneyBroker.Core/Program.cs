@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MoneyBrokerQuote.Console {
+namespace MoneyBroker.Core {
    class Program {
       static void Main(string[] args) {
          Console.WriteLine("Hello World!");
