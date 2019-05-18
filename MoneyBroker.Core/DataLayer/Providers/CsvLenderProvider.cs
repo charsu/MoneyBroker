@@ -9,6 +9,12 @@ using MoneyBroker.Core.Models;
 
 namespace MoneyBroker.Core.DataLayer.Providers {
    public class CsvLenderProvider : ILenderProvider {
+      public CsvLenderProvider() {
+      }
+
+      public CsvLenderProvider(string filename) : this() {
+         Init(filename);
+      }
 
       public List<LenderModel> Lenders { get; private set; } = new List<LenderModel>();
 
@@ -21,7 +27,7 @@ namespace MoneyBroker.Core.DataLayer.Providers {
       public void Init(string file) {
          using (var reader = new StreamReader(file))
          using (var csv = new CsvReader(reader, GetConfiguration())) {
-            Lenders = csv.GetRecords<LenderModel>().ToList();
+            Lenders = csv.GetRecords<LenderModel>()?.ToList()?.OrderBy(x => x.Rate).ToList() ?? new List<LenderModel>();
          }
       }
    }
