@@ -1,4 +1,6 @@
 using System.Linq;
+using Autofac;
+using Autofac.Core;
 using Autofac.Extras.Moq;
 using MoneyBroker.Core.DataLayer.Providers;
 using NUnit.Framework;
@@ -12,8 +14,7 @@ namespace MoneyBroker.Tests {
       public void LenderProvider_LoadCsv_OK() {
          var csv = Helpers.GetCsvFileFullPath();
 
-         var service = GetMock().Create<CsvLenderProvider>();
-         service.Init(csv);
+         var service = GetMock().Create<CsvLenderProvider>(new NamedParameter("filename", csv));
          var lenders = service.Lenders;
 
          //asserts

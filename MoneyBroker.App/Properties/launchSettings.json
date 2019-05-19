@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MoneyBroker.App": {
+      "commandName": "Project",
+      "commandLineArgs": "\".\\..\\..\\..\\..\\Market Data for Exercise-csv.csv\" 1000  "
+    }
+  }
+}

@@ -11,7 +11,7 @@ using NUnit.Framework;
 
 namespace MoneyBroker.Tests {
    public static class Helpers {
-      public static string GetCsvFileFullPath(string filename = "Market Data for Exercise - csv.csv") {
+      public static string GetCsvFileFullPath(string filename = "Market Data for Exercise-csv.csv") {
          var dir = TestContext.CurrentContext.TestDirectory;
          return Path.Combine(dir, @"..\..\..\..\" + filename);
       }

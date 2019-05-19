@@ -19,8 +19,8 @@ namespace MoneyBroker.Tests {
 
          var (m, t) = service.GetRepayment(1000, 0.07003999999999999M);
 
-         Assert.AreEqual(30.78M, m);
-         Assert.AreEqual(1108.10M, t);
+         Assert.AreEqual(30.7805943855424m, m);
+         Assert.AreEqual(1108.10139787953m, t);
       }
 
       [Test]

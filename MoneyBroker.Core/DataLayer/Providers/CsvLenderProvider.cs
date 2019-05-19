@@ -25,6 +25,10 @@ namespace MoneyBroker.Core.DataLayer.Providers {
          };
 
       public void Init(string file) {
+         if (!File.Exists(file)) {
+            throw new Validation.ValidationException($"could not locate file specified : {Path.GetFullPath(file)}");
+         }
+
          using (var reader = new StreamReader(file))
          using (var csv = new CsvReader(reader, GetConfiguration())) {
             Lenders = csv.GetRecords<LenderModel>()?.ToList()?.OrderBy(x => x.Rate).ToList() ?? new List<LenderModel>();

@@ -6,6 +6,14 @@ using MoneyBroker.Core.Models;
 
 namespace MoneyBroker.Core.Quote.Providers {
    public class LendQuoteProvider : ILendQuote {
+      public const int MinAmount = 1000;
+      public const int MaxAmount = 15000;
+      public const int AmountStep = 100;
+
+      public const string ErrorAmountOutsideBounds = "the amount needs to be within the interval [1000, 15000].";
+      public const string ErrorAmountBadStep = "the amount needs to be an increment of 100.";
+      public const string ErrorUnavailableMarketMoney = "the market does not have sufficient offers from lenders to satisfy the requested loan.";
+
       private readonly ILenderProvider _lenderProvider;
 
       public LendQuoteProvider(ILenderProvider lenderProvider) {
@@ -13,17 +21,28 @@ namespace MoneyBroker.Core.Quote.Providers {
       }
 
       public QuoteOutputModel GetQuote(decimal amount, int period = 36) {
-         //validation 
+
+         #region validation 
          // check if ammount is between 1000 - 15000
+         if (amount < MinAmount || amount > MaxAmount) {
+            throw new Validation.ValidationException(ErrorAmountOutsideBounds);
+         }
          // check ammount is % 100 
+         if (amount % AmountStep != 0) {
+            throw new Validation.ValidationException(ErrorAmountBadStep);
+         }
          // checked amount is not bigger then the total.
+         if (_lenderProvider.Lenders.Sum(x => x.Available) < amount) {
+            throw new Validation.ValidationException(ErrorUnavailableMarketMoney);
+         }
+         #endregion // validation
 
          var rate = GetBestRate(amount);
          var (montlyRepaymentRate, totalRepayment) = GetRepayment(amount, rate, period);
 
          return new QuoteOutputModel() {
             RequestAmount = amount,
-            Rate = rate,
+            RateAsPercent = rate * 100,
             MounthlyRepayment = montlyRepaymentRate,
             TotalRepayment = totalRepayment
          };
@@ -64,7 +83,7 @@ namespace MoneyBroker.Core.Quote.Providers {
          var r = GetMonthlyInterestRate(rate);
          var p = (double)amount * r / (1 - Math.Pow(1 + r, -period));
          var t = p * period;
-         return ((decimal)Math.Round(p, 2), (decimal)Math.Round(t, 2));
+         return ((decimal)p, (decimal)t);
       }
 
       /// <summary>
