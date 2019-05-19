@@ -40,7 +40,7 @@ namespace MoneyBroker.Core.Quote.Providers {
          while (lenders.Count > 0 && amount < loanAmmount) {
             var lender = lenders.Dequeue();
             //make sure we only take as much as we need 
-            var lamount = amount + lender.Available > loanAmmount ? loanAmmount - amount : lender.Available;
+            var lamount = Math.Min(loanAmmount - amount, lender.Available);
             amount += lamount;
             pot.Add((lender.Rate, lamount));
          }
@@ -52,18 +52,29 @@ namespace MoneyBroker.Core.Quote.Providers {
          return weightedValueSum / weightSum;
       }
 
+      /// <summary>
+      /// calculates the monthly payment and total amount to be paid.
+      /// see : http://www.financeformulas.net/Loan_Payment_Formula.html
+      /// </summary>
+      /// <param name="amount"></param>
+      /// <param name="rate"></param>
+      /// <param name="period"></param>
+      /// <returns></returns>
       public (decimal pmt, decimal total) GetRepayment(decimal amount, decimal rate, int period = 36) {
-         // PMT = PV(r / n)(1 + r / n) ^{ nt} / [(1 + r / n) ^{ nt} -1]
-         decimal pv = amount;
-         decimal r = rate;
-         decimal n = 12; // times compounded (eg once every year)
-
-         var rn = r / n;
-         var pow = (decimal)Math.Pow((double)(1 + rn), (double)(period));
-         var pmt = Math.Round(pv * rn * pow / (pow - 1), 2);
-         var total = Math.Round(pmt * period, 2);
-
-         return (pmt, total);
+         var r = GetMonthlyInterestRate(rate);
+         var p = (double)amount * r / (1 - Math.Pow(1 + r, -period));
+         var t = p * period;
+         return ((decimal)Math.Round(p, 2), (decimal)Math.Round(t, 2));
       }
+
+      /// <summary>
+      ///  - https://www.experiglot.com/2006/06/07/how-to-convert-from-an-annual-rate-to-an-effective-periodic-rate-javascript-calculator/
+      ///  - https://www.engineeringtoolbox.com/effective-nominal-interest-rates-d_1468.html
+      /// </summary>
+      /// <param name="annualInterestRate"></param>
+      /// <returns></returns>
+      public double GetMonthlyInterestRate(decimal annualInterestRate)
+      => Math.Pow((double)(1 + annualInterestRate), 1.0D / 12D) - 1;
+
    }
 }

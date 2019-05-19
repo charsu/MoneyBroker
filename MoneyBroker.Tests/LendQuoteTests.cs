@@ -17,10 +17,10 @@ namespace MoneyBroker.Tests {
       public void LendQuote_GetRepayment_OK() {
          var service = GetMock().Create<LendQuoteProvider>();
 
-         var (m, t) = service.GetRepayment(1000, 0.07M);
+         var (m, t) = service.GetRepayment(1000, 0.07003999999999999M);
 
-         Assert.AreEqual(30.88M, m);
-         Assert.AreEqual(1111.68M, t);
+         Assert.AreEqual(30.78M, m);
+         Assert.AreEqual(1108.10M, t);
       }
 
       [Test]
